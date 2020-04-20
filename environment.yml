@@ -6,4 +6,4 @@ dependencies:
   - matplotlib
   - metpy
   - netCDF4
-  - skimage
+  - scikit-image

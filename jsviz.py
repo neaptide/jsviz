@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-14 07:37:58 haines>
+# Last modified: Time-stamp: <2020-04-20 10:08:14 haines>
 r""" Jetstream vizualization (jsviz) tool using ECMWF Reanalysis v5 (ERA5) data
 
 Plots:
@@ -385,12 +385,12 @@ BB['dt'] = find_months(yyyy_mm)
 
 # input path of netcdf files
 # local data
-indir = os.path.join('/data', 'era5', 'test')
-d = get_data(indir, BB)
+# indir = os.path.join('/data', 'era5', 'test')
+# d = get_data(indir, BB)
 
 # use data on dap server
-# dapdir = 'http://whewell.marine.unc.edu/dods/era5/test'
-# d = get_data(dapdir, BB)
+dapdir = 'http://whewell.marine.unc.edu/dods/era5/test'
+d = get_data(dapdir, BB)
 
 init_plot()
 plt.draw()

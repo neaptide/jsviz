@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-20 10:08:14 haines>
+# Last modified: Time-stamp: <2020-04-20 10:23:50 haines>
 r""" Jetstream vizualization (jsviz) tool using ECMWF Reanalysis v5 (ERA5) data
 
 Plots:
@@ -35,6 +35,10 @@ from jsutil import *
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gs
 from matplotlib.widgets import Slider, Button, TextBox, CheckButtons
+
+# suppress warnings
+import warnings
+warnings.filterwarnings("ignore")
 
 # Define default bounds and bounding box
 BB = dict( lon=[-140, -50],

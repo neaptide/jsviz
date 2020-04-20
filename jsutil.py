@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-14 17:25:52 haines>
+# Last modified: Time-stamp: <2020-04-20 10:24:52 haines>
 """ Jet stream utilities (jsutil)
 
 """
@@ -159,6 +159,9 @@ def get_data(indir, BB):
     press_params = ['hgt', 'uwnd', 'vwnd']
     dt1 = BB['dt'][0]
     dt2 = BB['dt'][1]
+
+    #
+    print('Reading ERA5 data from: %s' % indir)
 
     for param in list(params.keys()):
         fn = '%s.%04d.nc' % (param, dt1.year) # each file year has one param

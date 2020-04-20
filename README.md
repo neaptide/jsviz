@@ -13,19 +13,30 @@ Launch an interactive notebook to the code repository from this badge.
 A browser tab will open to an interactive jupyter-notebook servered via mybinder.org.  A Binder image has been built for this purpose. It takes a short while for the  to be displayed.  Be patient. If it is taking a really long time, the Binder image might being rebuilt depending on if there where any underlying code changes or dependencies. Click on `run_jsviz.ipynb` to launch the interactive graph. 
 
 ## Get code and run in your python environment 
-If you are familiar with Python and your system Python installation, you can install the latest version using [pip](http://pypi.python.org/pypi/pip).
 
-Get the code:
+If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz) or you can install the latest version using [pip](http://pypi.python.org/pypi/pip):
+
+```bash
+   git clone https://github.com/neaptide/jsviz.git
+```
+
 ```bash
    pip install git+https://github.com/neaptide/jsviz.git
 ```
 
-OR download from [Github](https://github.com/neaptide/jsviz)
 
 ## Jupyter-Notebook
-Once your jupyter-notebook is up and running, you will get screen like the one below. Click on the link `run_jsviz.ipynb`  
+
+Once your jupyter-notebook is up and running, you will get a tab in your web browser like the one below. 
+
 ![Image of online notebook server](https://github.com/neaptide/jsviz/blob/master/run_jsviz_notebook_view.png)
 
+Click on the link `run_jsviz.ipynb` to open the interactive notebook.  You should see a code cell
+
+```
+%matplotlib notebook
+%run jsviz.py 2018_01
+```
 
 
 [![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/run_jsviz_ipynb.png)](https://mybinder.org/v2/gh/neaptide/jsviz/master)

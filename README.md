@@ -3,12 +3,12 @@ The Jet Stream Visualization (jsviz) tool reads in ERA5 data to build a graphica
 
 Here is a screen image of the map and interface. 
 
-[![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_ipynb.png)](https://mybinder.org/v2/gh/neaptide/jsviz/master)
+![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_ipynb.png)
 
 ## Quick Start -- Don't know python or Jupyter?
 Launch a Jupyter dashboard to the code repository from this badge.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master) 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb) 
 
 A Binder image has been built for this purpose. It takes a short while for the  to be displayed.  Be patient. If it is taking a really long time, the Binder image is being rebuilt if underlying code changes or dependencies were made since the last build. Once the image is served it will open up a Jupyter dashboard in a web browser tab.
 
@@ -27,14 +27,14 @@ You should see a code cell.
 
 ## Get code and run in your python environment 
 
-If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz) or you can install the latest version using [pip](http://pypi.python.org/pypi/pip):
+If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz): 
 
 ```bash
-   git clone https://github.com/neaptide/jsviz.git
+git clone https://github.com/neaptide/jsviz.git
 ```
+
+or you can install the latest version using [pip](http://pypi.python.org/pypi/pip):
 
 ```bash
-   pip install git+https://github.com/neaptide/jsviz.git
+pip install git+https://github.com/neaptide/jsviz.git
 ```
-
-[![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_ipynb.png)](https://mybinder.org/v2/gh/neaptide/jsviz/master)

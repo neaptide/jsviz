@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-20 10:23:50 haines>
+# Last modified: Time-stamp: <2020-04-21 15:48:28 haines>
 r""" Jetstream vizualization (jsviz) tool using ECMWF Reanalysis v5 (ERA5) data
 
 Plots:
@@ -69,7 +69,7 @@ fig = plt.figure(figsize=(10, 7.5))
 axs = [fig.add_axes((.1,.1,.6,.7)),0,0]
 
 # main map
-title1_str = 'avg wspd (100-400 hPa), hgt (300 hPa), msl pressure (hPa)'
+title1_str = 'avg wspd (100-400 hPa), \nhgt (300 hPa), msl pressure (hPa)'
 axs[0].set_title(title1_str, loc='left')
 t1 = axs[0].set_title('YYYY_MM_DD_HHMM', loc='right')
 # set aspect to simply mimic equidistant projection

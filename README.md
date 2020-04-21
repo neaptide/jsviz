@@ -6,13 +6,13 @@ Here is a screen image of the map and interface.
 [![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/run_jsviz_ipynb.png)](https://mybinder.org/v2/gh/neaptide/jsviz/master)
 
 ## Quick Start -- Don't know python or Jupyter?
-Launch a Jupyter dashboard to the code repository from this badge.
+Launch the Jupyter Notebook from this badge.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master) 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb) 
 
 A Binder image has been built for this purpose. It takes a short while for the  to be displayed.  Be patient. If it is taking a really long time, the Binder image is being rebuilt if underlying code changes or dependencies were made since the last build. Once the image is served it will open up a Jupyter dashboard in a web browser tab.
 
-![Image of online notebook server](https://github.com/neaptide/jsviz/blob/master/run_jsviz_notebook_view.png)
+![Image of online notebook server]()
 
 ## `jsviz` Jupyter-Notebook
 

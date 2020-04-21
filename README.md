@@ -10,13 +10,12 @@ Launch a Jupyter dashboard to the code repository from this badge.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb) 
 
-A Binder image has been built for this purpose. It takes a short while for the  to be displayed.  Be patient. If it is taking a really long time, the Binder image is being rebuilt if underlying code changes or dependencies were made since the last build. Once the image is served it will open up a Jupyter dashboard in a web browser tab.
+A Binder image has been built for this purpose. It takes a short while for the to be displayed.  Be patient. 
 
-![Image of online notebook server](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_notebook_view.png)
+If it is taking a really long time, most likely there were underlying code changes and the Binder image is being rebuilt. Once the image is (built and) served it will open up notebook called `run_jsviz.ipynb` in a web browser tab.
+
 
 ## `jsviz` Jupyter-Notebook
-
-Click on the link `run_jsviz.ipynb` to open the interactive notebook.  
 
 You should see a code cell.
 

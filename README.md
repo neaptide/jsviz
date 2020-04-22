@@ -6,16 +6,14 @@ Here is a screen image of the map and interface.
 ![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_ipynb.png)
 
 ## Quick Start -- Don't know python or Jupyter?
-Launch a Jupyter dashboard to the code repository from this badge.
+Launch a the Jupyter Notebook to demo this tool from this badge. A Binder image has been built for this purpose. It takes a short while for the to be displayed.  Be patient. 
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb) 
-
-A Binder image has been built for this purpose. It takes a short while for the to be displayed.  Be patient. 
 
 If it is taking a really long time, most likely there were underlying code changes and the Binder image is being rebuilt. Once the image is (built and) served it will open up notebook called `run_jsviz.ipynb` in a web browser tab.
 
 
-## `jsviz` Jupyter-Notebook
+## Using `run_jsviz.ipynb` Notebook
 
 You should see a code cell.
 

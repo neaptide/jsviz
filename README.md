@@ -29,15 +29,23 @@ It will open the notebook in a web browser tab. It takes a short while for the p
 
 ### Using `run_jsviz.ipynb` Notebook
 
-You should see a code cell, once run, will load data for a specified year and month (YYYY_MM).  It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude.  
+You should see a code cell, and once it is run, will load data for a specified year and month (YYYY_MM).  It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
 
 ```
 %matplotlib notebook
 %run jsviz.py 2018_01
 ```
 
-  - Select another longitude by moving the "Long" slider or pressing left- (<) and right-arrow (>) associated with it.  
-  - Select a different time and date by moving the "Date" slider or pressing left- (<) and right-arrow (>) associated with it. 
+To start:
+- Place the cursor within cell.
+- Change `2018_01` (YYYY_MM) to run a different year and month. (Only 2017-2018 data are currently avialable)
+- Press "Run" (![run button](https://github.com/neaptide/jsviz/blob/master/images/run_button.png)) to run the cell.  
+
+Once the "Figure 1" bar with the interaction button (![interaction_button](https://github.com/neaptide/jsviz/blob/master/images/interaction_button.png)) is displayed, you can now use the graphical interface. 
+- Select another longitude by moving the "Long" slider or pressing left- (<) and right-arrow (>) associated with it.  
+- Select a different time and date by moving the "Date" slider or pressing left- (<) and right-arrow (>) associated with it.
+- Press "Show/Hide JS" button to toggle display of jet stream markers.
+- Change parameters under "Local Peak Max" to change aspects of the algorithm for jet stream algorithm.
 
 ### Get the code 
 

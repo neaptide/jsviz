@@ -1,42 +1,47 @@
 # jsviz
 
 ### Overview
-The Jet Stream Visualization (jsviz) is a graphical tool to help see the variable path of the strongest wind speeds in the upper atmosphere and how these maximum winds evolve with time and space.  Combined with data layers of geopotential height and surface pressure, the tool helps provide understanding of the basic atmospheric dynamics.  It can also be used for evaluating the algorithm(s) for determining the position of the jet stream and how it varies with time, latitude, longitude and altitude. 
+The Jet Stream Visualization Tool (jsviz) is a graphical tool to help see the variable path of the strongest wind speeds in the upper atmosphere and how these maximum winds evolve with time and space.  Combined with data layers of geopotential height and surface pressure, the tool helps provide understanding of the basic atmospheric dynamics associated with the jet stream.  It can also be used for evaluating the algorithm(s) for determining the position of the jet stream and how it varies with time, latitude, longitude and altitude. 
 
-The tool provides a map and vertical section (along a given longitude) to view atmospheric pressure highs and lows and high wind features.  [ECMWF Reanalysis (ERA5)](https://confluence.ecmwf.int/display/CKB/What+is+ERA5) [1] data of wind speed (wspd), height of the geopotential surface (hgt), and mean sea-level pressure (msl) fields are displayed. 
+The tool provides a map and vertical section (along a given longitude) to view atmospheric pressure highs and lows and high wind features.  [ECMWF Reanalysis (ERA5)](https://confluence.ecmwf.int/display/CKB/What+is+ERA5) [1] data of wind speed (wspd), height of the geopotential surface (hgt), and mean sea-level pressure (msl) fields are displayed.  Currently, the extents of the map and data focus on North America and hence the atmospheric jets in the northern hemisphere.  These extents can be adjusted in code and data downloaded from ERA5 for other regions of the world.
 
-The main map shows the average wspd for the 100-400 hPa levels in filled contours corresponding to the scale below the map, hgt (300 hPa level) in sold, black lines, and msl in grey lines (>=1013 hPa solid, <1013 hPa dashed) for North America. The section plot on the right displays the longitudinal slice through the upper atmosphere showing the detailed vertical structure of wspd and equal surfaces of hgt (solid black line for 300 hPa and solid blue for other) with altitude (km). By using the graphical interface, differnt longitudes and times can be viewed to show (or play) the 4-dimensional, dynamic nature of the upper atmosphere and the paths of horthern hemispher jet stream(s).
+### The Graphical Tool
 
-### Jet Stream
-
-The `jsviz` code can be run in a jupyter-notebook or standalone using ipython.
+The main map shows the average wspd for the 100-400 hPa levels in filled contours corresponding to the scale below the map, hgt (300 hPa level) in sold, black lines, and msl in grey lines (>=1013 hPa solid, <1013 hPa dashed) for North America. The section plot on the right displays the longitudinal slice through the upper atmosphere showing the detailed vertical structure of wspd and equal surfaces of hgt (solid black line for 300 hPa and solid blue for other) with altitude (km). By using the graphical interface, longitudes and times can be selected to show (or "play") the 4-dimensional, dynamic nature of the upper atmosphere and the jet stream paths in northern hemisphere. 
 
 Here is a screen image of the map and interface. 
 
 ![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_ipynb.png)
 
-### Quick Start -- Don't know python or Jupyter?
-Launch a the Jupyter Notebook to demo this tool from this badge. A Binder image has been built for this purpose. It takes a short while for the to be displayed.  Be patient. 
+### Jet Stream Algorithm 
 
+
+
+
+### Quick Start -- Demo
+
+A Binder image has been built to demo the code. This demo can be run if you don't have python setup locally or don't know how to launch your own jupyter-notebook.  Although, it is slower to load and run than downloading and running `jsviz` code locally. 
+
+Launch a the demo Jupyter Notebook from this badge.  
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb) 
 
-If it is taking a really long time, most likely there were underlying code changes and the Binder image is being rebuilt. Once the image is (built and) served it will open up notebook called `run_jsviz.ipynb` in a web browser tab.
-
+It will open the notebook in a web browser tab. It takes a short while for the page to be displayed.  Be patient.  If it is taking a really long time, most likely there were underlying code changes and the Binder image is being rebuilt. Once the Binder image is (built and) served it will open up notebook called `run_jsviz.ipynb` in a web browser tab. 
 
 ### Using `run_jsviz.ipynb` Notebook
 
-You should see a code cell.
+You should see a code cell, once run, will load data for a specified year and month (YYYY_MM).  It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude.  
 
 ```
 %matplotlib notebook
 %run jsviz.py 2018_01
 ```
 
-A given longitude can be selected by moving the slider or pressing left- (<) and right-arrow (>) labeled "Long".  
+  - Select another longitude by moving the "Long" slider or pressing left- (<) and right-arrow (>) associated with it.  
+  - Select a different time and date by moving the "Date" slider or pressing left- (<) and right-arrow (>) associated with it. 
 
-### Get code and run in your python environment 
+### Get the code 
 
-If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz): 
+The `jsviz` code can be run in a Jupyter Notebook or standalone using IPython.  If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz): 
 
 ```bash
 git clone https://github.com/neaptide/jsviz.git

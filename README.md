@@ -15,8 +15,11 @@ Here is a screen image of the map and interface.
 
 ### Jet Stream Algorithm 
 
+The basic steps are:
+- Find maximum wind speeds in upper troposhere
+- Apply further limitations when mulitple peaks are found
 
-
+More details of the method are provided in the [Jet Stream Characterization page](https://github.com/neaptide/jsviz/blob/master/jsalgo.md).
 
 ### Quick Start -- Demo
 

@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-20 10:24:52 haines>
+# Last modified: Time-stamp: <2020-04-29 15:57:42 haines>
 """ Jet stream utilities (jsutil)
 
 """
@@ -15,7 +15,7 @@ import metpy.calc
 from metpy.units import units
 
 from skimage.feature import peak_local_max
-from skimage.measure import label, regionprops, find_contours, points_in_poly, approximate_polygon
+import cv2
 
 def scanf_datetime(ts, fmt='%Y-%m-%dT%H:%M:%S'):
     """Convert string representing date and time to datetime object"""
@@ -91,7 +91,11 @@ def find_jets(d, dtidx=0, p={}):
         p = { 'num_peaks' : 4,
               'min_distance' : 3,
               'exclude_border' : 0,
-              'threshold_abs': 40.}
+              'threshold_abs': 40.,
+              #
+              'peaks_inside_toggle': 1,
+              'peaks_inside_threshold': 30.,
+              'peaks_inside_zonal_max': 0}
 
     lons = list(range(0,d['lon'].size))
     jsidx = []
@@ -99,9 +103,8 @@ def find_jets(d, dtidx=0, p={}):
     for lonidx in lons:
       # vertical section at each lonidx of wind speed -- wspd(lvl,lat)
       wsec = d['wspd'][dtidx,:,:,lonidx].squeeze()
-      usec = d['uwnd'][dtidx,:,:,lonidx].squeeze()
 
-      # find lat and lvl where peak winds speeds exceed 30 m/sec and not on border of domain
+      # find lvl and lat where peak winds speeds exceed 30 m/sec and not on border of domain
       # recall wsec.m is metpy array without units
       yx = peak_local_max(wsec.m,
                           min_distance=p['min_distance'],
@@ -109,24 +112,61 @@ def find_jets(d, dtidx=0, p={}):
                           exclude_border=p['exclude_border'],
                           num_peaks=p['num_peaks']
                           )
+      # number of peaks is number of rows of yx
+      numpeaks, _ = yx.shape
 
-      # get wind speeds at peaks
+      if p['peaks_inside_toggle']:
+          # get wind speeds (wspd and uwnd) at peaks
+          # bool to track of which peaks to keep 
+          keep = np.full(numpeaks, False)
+          wspd = np.full(numpeaks, np.NaN)
+          uwnd = np.full(numpeaks, np.NaN)
+          # get wind speeds and uwnd for each peak
+          for i, peak in enumerate(yx):
+              lvlidx, latidx = peak # since wsec(lvl,lat)
+              uwnd[i] = d['uwnd'][dtidx,lvlidx,latidx,lonidx].m
+              wspd[i] = d['wspd'][dtidx,lvlidx,latidx,lonidx].m
+
+              # Find contours of 30 m/s
+              # Apply thresholding to the surface and cast as uint8
+              # image = np.uint8((wsec.m > 30.0).astype(int))
+              image = np.uint8((wsec.m > p['peaks_inside_threshold']).astype(int))
+
+              # transpose image to match order of yx points, # image.T.shape
+              # returns tuple (contours, heirarchy) so unpack return as contours, _
+              contours, _ = cv2.findContours(image.T,  cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+
+          # Keep peaks based on:
+          #  1. max peak if two or more within one contour (30 m/s)
+          #  2. uwnd > 0 (is positive)
+          for n, c in enumerate(contours):
+              contour = c.squeeze()
+              # bool to track which peaks inside contour
+              inside = np.full(numpeaks, False)
+              for ip, peak in enumerate(yx):
+                  pt = tuple(yx[ip,:])
+                  try:
+                      inside[ip] = (cv2.pointPolygonTest(contour,pt,False) >= 0)
+                  except:
+                      continue
+              # print('lonidx: %d,  cidx: %d,  yx pt inside: %s' % (lonidx, n, inside))
+              # of the peaks inside contour which is max and positive eastward
+              if inside.any():
+                  for ip, val in enumerate(wspd):
+                      if (val==max(wspd[inside])) and (uwnd[ip]>0):
+                          keep[ip] = True
+
+      # no limitation -- p['peaks_inside_toggle']==False or 0
+      else:
+          # bool to track of which peaks to keep
+          keep = np.full(numpeaks, True)
           
-      # Pick highest peak if multiple peaks within 30.0 m/sec contours
-      # Find contours at a constant value of 30 m/sec
-      # contours = find_contours(wsec, 30.0, fully_connected='high')
-      # for n, contour in enumerate(contours):
-      #     inside = points_in_poly(yx,contour)
-      #     print('lonidx: %d,  cidx: %d,  yx pts inside: %s' % (lonidx, n, inside))
-      #
-      for peak in yx:
+      # 
+      for peak in yx[keep]:
           lvlidx, latidx = peak # since wsec(lvl,lat)
-          # add peak to list
-          # if eastward-component of wind is positive
-          # recall usec.m is metpy array without units
-          if usec[lvlidx,latidx].m > 0:
-              jsidx.append([dtidx,lvlidx,latidx,lonidx])
-    #
+          jsidx.append([dtidx,lvlidx,latidx,lonidx])
+
+    # end for each lon
     return np.array(jsidx)
 
 def get_data(indir, BB):

@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-21 15:48:28 haines>
+# Last modified: Time-stamp: <2020-04-29 16:54:40 haines>
 r""" Jetstream vizualization (jsviz) tool using ECMWF Reanalysis v5 (ERA5) data
 
 Plots:
@@ -40,12 +40,19 @@ from matplotlib.widgets import Slider, Button, TextBox, CheckButtons
 import warnings
 warnings.filterwarnings("ignore")
 
-# Define default bounds and bounding box
+# Define default data bounds for analysis
 BB = dict( lon=[-140, -50],
-           lat=[  10,  60],
+           lat=[   0,  80],
            lvl=[ 100, 500],
            dt = [datetime.datetime(2017,1,1), datetime.datetime(2017,2,1)]
            )
+
+# Define default bounding box for the figure
+BB_fig = dict( lon=[-140, -50],
+               lat=[  10,  60],
+               lvl=[ 100, 500],
+               dt = [datetime.datetime(2017,1,1), datetime.datetime(2017,2,1)]
+               )
 
 # grab the coastline dataset
 lines = get_coastlines()
@@ -61,7 +68,11 @@ JSLON=3
 lm = { 'num_peaks' : 4,
        'min_distance' : 3,
        'exclude_border' : 0,
-       'threshold_abs': 40.}
+       'threshold_abs': 40.,
+       #
+       'peaks_inside_toggle': 1,
+       'peaks_inside_threshold': 30.,
+       'peaks_inside_zonal_max': 0}
 
 
 # setup figure layout 
@@ -70,12 +81,12 @@ axs = [fig.add_axes((.1,.1,.6,.7)),0,0]
 
 # main map
 title1_str = 'avg wspd (100-400 hPa), \nhgt (300 hPa), msl pressure (hPa)'
-axs[0].set_title(title1_str, loc='left')
-t1 = axs[0].set_title('YYYY_MM_DD_HHMM', loc='right')
+axs[0].set_title(title1_str, loc='right')
+t1 = axs[0].set_title('YYYY_MM_DD_HHMM', loc='left')
 # set aspect to simply mimic equidistant projection
-axs[0].set_aspect(1/np.cos(np.pi*np.mean(BB['lat'])/180.)) 
-axs[0].set_xlim(BB['lon'][0],BB['lon'][1])
-axs[0].set_ylim(BB['lat'][0],BB['lat'][1])
+axs[0].set_aspect(1/np.cos(np.pi*np.mean(BB_fig['lat'])/180.)) 
+axs[0].set_xlim(BB_fig['lon'][0],BB_fig['lon'][1])
+axs[0].set_ylim(BB_fig['lat'][0],BB_fig['lat'][1])
 axs[0].set_xlabel('Longitude (deg)')
 axs[0].set_ylabel('Latitude (deg)')
 # plot coastline/lakes
@@ -99,6 +110,7 @@ axs[2] = fig.add_axes((l+w+0.01,b,.2,h))
 # some customizations (called on the axes of the section)
 title2_str = 'Section at lon=%.1f' % 0
 t2 = axs[2].set_title(title2_str)
+axs[2].set_ylim(BB_fig['lat'][0],BB_fig['lat'][1])
 # ax.set_xlabel('Level (hPa)')
 # ax.invert_xaxis()
 axs[2].set_xlabel('Altitude (km)')
@@ -279,29 +291,45 @@ def local_max_threshold_abs(val):
     lm['threshold_abs']=float(eval(val))
     update_both_plot(val)
 
+def toggle_limitation(val):
+    global lm, cjs1
+    lm['peaks_inside_toggle']=not lm['peaks_inside_toggle']
+    if lm['peaks_inside_toggle']:
+        cjs1.label.set_text('Limitation\nON')
+        cjs1.ax.set_facecolor('green')
+    else:
+        cjs1.label.set_text('Limitation\nOFF')
+        cjs1.ax.set_facecolor('red')
+    update_both_plot(val)
+    
 def toggle_jet_stream(val):
-    global jsmap, jsvec
+    global jsmap, jsvec, cjs2
     jsmap.set_visible(not jsmap.get_visible())
     jsvec.set_visible(not jsvec.get_visible())
+    if jsmap.get_visible():
+        cjs2.label.set_text('Jet Stream\nON')
+        cjs2.ax.set_facecolor('green')
+    else:
+        cjs2.label.set_text('Jet Stream\nOFF')
+        cjs2.ax.set_facecolor('red')
     plt.draw()
-    
 
 # outer grid to frame inner grid of gui, 
 # use the object handle of figure (fig) and method add_gridspec
-ogs = fig.add_gridspec(5,3, left=0.1, right=0.95,  top=0.95, bottom=0.05)
+ogs = fig.add_gridspec(5,4, left=0.05, right=0.95,  top=0.95, bottom=0.05)
 # otherwise this direct call in jupyter-notebooks put the grid and widgets in new figure
 # ogs = gs.GridSpec(4,3, left=0.1, right=0.95,  top=0.95, bottom=0.05)
 
 # use top row of ogs for inner grids
 # ogs[0,0] for peak_local_max inputs
-# ogs[0,1] for lon and dt sliders
-# ogs[0,2] for next and prev button sets
+# ogs[0,1] 
+# ogs[0,2] for lon and dt sliders
+# ogs[0,3] for next and prev button sets
 
-
-igs = gs.GridSpecFromSubplotSpec(4,2,subplot_spec=ogs[0,0], hspace=0.2)
+igs = gs.GridSpecFromSubplotSpec(4,2,subplot_spec=ogs[0,0], hspace=0.1)
 # local_peak_max input parameters
 # num_peaks
-text_np = TextBox(fig.add_subplot(igs[0,1], title='Local Peak Max'), 'num_peaks', initial=str(lm['num_peaks']))
+text_np = TextBox(fig.add_subplot(igs[0,1], title='Local Maxima Detection'), 'num_peaks', initial=str(lm['num_peaks']))
 text_np.on_submit(local_max_num_peaks)
 # min_distance (and dilation of max_filter)
 text_md = TextBox(fig.add_subplot(igs[1,1]), 'min_distance', initial=str(lm['min_distance']))
@@ -313,8 +341,18 @@ text_exb.on_submit(local_max_exclude_border)
 text_thresh = TextBox(fig.add_subplot(igs[3,1]), 'threshold (m/sec)', initial=str(lm['threshold_abs']))
 text_thresh.on_submit(local_max_threshold_abs)
 
+igs = gs.GridSpecFromSubplotSpec(4,2,subplot_spec=ogs[0,1], hspace=0.1)
+# further JS limitation hide/show
+cjs1 = Button(fig.add_subplot(igs[2:,0]), label='Limitation\nON', color='green', hovercolor='green')
+cjs1.on_clicked(toggle_limitation)
+# describe limitation in text
+# JS hide/show
+axbtn2 = fig.add_subplot(igs[0:2,0])
+cjs2 = Button(fig.add_subplot(igs[0:2,0]), 
+              label='Jet Stream\nON', color='green', hovercolor='green')
+cjs2.on_clicked(toggle_jet_stream)
 
-igs = gs.GridSpecFromSubplotSpec(4,1,subplot_spec=ogs[0,1], hspace=0.2)
+igs = gs.GridSpecFromSubplotSpec(4,1,subplot_spec=ogs[0,2], hspace=0.2)
 # Longitude slider
 # use the object handle of figure (fig) and method add_subplot to add
 axlon = fig.add_subplot(igs[0])
@@ -324,13 +362,8 @@ slon.on_changed(update_section_plot)
 axdt = fig.add_subplot(igs[1])
 sdt = Slider(axdt, 'Date', 0, 31*4, valinit=0, valfmt='%d')
 sdt.on_changed(update_both_plot)
-# JS hide/show
-axcheck = fig.add_subplot(igs[2:])
-# cjs = CheckButtons(axcheck, ['Show/Hide JS'], [jsmap.get_visible()])
-cjs = Button(axcheck, 'Show/Hide JS')
-cjs.on_clicked(toggle_jet_stream)
 
-igs = gs.GridSpecFromSubplotSpec(4,4,subplot_spec=ogs[0,2], hspace=0.2)
+igs = gs.GridSpecFromSubplotSpec(4,4,subplot_spec=ogs[0,3], hspace=0.2)
 # Longitude prev button
 axlonprev = fig.add_subplot(igs[0,0])
 blonprev = Button(axlonprev, '<')
@@ -386,6 +419,7 @@ else:
     yyyy_mm = '2018_01'
 
 BB['dt'] = find_months(yyyy_mm)
+BB_fig['dt'] = find_months(yyyy_mm)
 
 # input path of netcdf files
 # local data
@@ -393,7 +427,8 @@ BB['dt'] = find_months(yyyy_mm)
 # d = get_data(indir, BB)
 
 # use data on dap server
-dapdir = 'http://whewell.marine.unc.edu/dods/era5/test'
+# dapdir = 'http://whewell.marine.unc.edu/dods/era5/test' # 10/60 N
+dapdir = 'http://whewell.marine.unc.edu/dods/era5' # 0/80 N
 d = get_data(dapdir, BB)
 
 init_plot()

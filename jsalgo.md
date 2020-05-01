@@ -5,9 +5,9 @@
 
 #### Choosing Maximum Windspeeds
 
-One main goal is to identify the location (longitude, latitude, and altitude) of peak winds with time to identify the variable path of the jet streams.  Here, we adopt a similar strategy used by Manney et al. (2011) [1] and Rinkus (2015) [2], to evaluate maximum windpeeds from reanalysis data in a longitudinal slice through the upper atmosphere. 
+One main goal is to identify the location (longitude, latitude, and altitude or pressure level) of peak winds with time to plot the variable path(s) of the jet streams, globally or regionally.  Here, we adopt a similar strategy used by Manney et al. [1] and Rikus [2] to determine jet stream positions. Their methodologies evaluate maximum windpeeds from reanalysis data along each longitudinal slice through the upper atmosphere.  The regional analysis here is centered on North America (0-80 deg N and 140-50 deg W), every 6 hours but could be expanded to wider extents in time and space and/or higher resolution.
 
-By using an image processing method called "Local Maxima Detection," the coordinates of maxima windspeeds in 2D (latitude and altitude) can be determined for each longitude and each time step.  This method efficiently automates the process to analyze decades of atmospheric reanalysis data for jet stream characteristics. A similar image analysis tool is employed by Rinkus (2015) [2].
+By using an image processing method called "Local Maxima Detection," the coordinates of maxima windspeeds in 2D (latitude and altitude/pressure) can be determined for each longitude and each time step.  This method efficiently automates the process to analyze decades of atmospheric reanalysis data for jet stream characteristics. A similar image analysis tool is employed by Rinkus [2].
 
 We use the Python function `peak_local_max` available from the [*scikit-image*](https://scikit-image.org/) open-source library to implement the "Local Maxima Detection" method.
 

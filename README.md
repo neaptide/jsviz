@@ -7,19 +7,19 @@ The tool provides a map and vertical section (along a given longitude) to view a
 
 ### The Graphical Tool
 
-The main map shows the average wspd for the 100-400 hPa levels in filled contours corresponding to the scale below the map, hgt (300 hPa level) in sold, black lines, and msl in grey lines (>=1013 hPa solid, <1013 hPa dashed) for North America. The section plot on the right displays the longitudinal slice through the upper atmosphere showing the detailed vertical structure of wspd and equal surfaces of hgt (solid black line for 300 hPa and solid blue for other) with altitude (km). By using the graphical interface, longitudes and times can be selected to show (or "play") the 4-dimensional, dynamic nature of the upper atmosphere and the jet stream paths in northern hemisphere. 
+The main map shows the average wspd for the 100-400 hPa levels in filled contours corresponding to the scale below the map, hgt (300 hPa level) in sold, black lines, and msl in grey lines (>=1013 hPa solid, <1013 hPa dashed) for North America. The section plot on the right displays the longitudinal slice through the upper atmosphere showing the detailed vertical structure of wspd and equal surfaces of hgt (solid black line for 300 hPa and solid blue for other) with altitude (km). By using the graphical interface, longitudes and times can be selected to show (or "play") the 4-dimensional (4D), dynamic nature of the upper atmosphere and the jet stream paths in northern hemisphere. 
 
 Here is a screen image of the map and interface. 
 
 ![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_ipynb.png)
 
-### Jet Stream Algorithm 
+### Determining Jet Stream Location
 
-The basic steps are:
-- Find maximum wind speeds in upper troposhere
+The basic methodology steps are:
+- Find maximum wind speeds in upper troposhere, using 4D ERA5 data.
 - Apply further limitations when mulitple peaks are found
 
-More details of the method are provided in the [Jet Stream Characterization page](https://github.com/neaptide/jsviz/blob/master/jsalgo.md).
+More details of the method are provided in the [Jet Stream Characterization page](https://github.com/neaptide/jsviz/blob/master/jsalgo.md). 
 
 ### Quick Start -- Demo
 
@@ -47,8 +47,9 @@ To start:
 Once the "Figure 1" bar with the interaction button (![interaction_button](https://github.com/neaptide/jsviz/blob/master/images/interaction_button.png)) is displayed, you can now use the graphical interface. 
 - Select another longitude by moving the "Long" slider or pressing left- (<) and right-arrow (>) associated with it.  
 - Select a different time and date by moving the "Date" slider or pressing left- (<) and right-arrow (>) associated with it.
-- Press "Show/Hide JS" button to toggle display of jet stream markers.
-- Change parameters under "Local Peak Max" to change aspects of the algorithm for jet stream algorithm.
+- See the [Jet Stream Characterization](https://github.com/neaptide/jsviz/blob/master/jsalgo.md) description for "Local Maxima Detection" parameters and further peak limitation.
+  - Press "Jet Stream ON/OFF" button to toggle display of jet stream markers.
+  - Press "Limitation ON/OFF" button to enable/disable further limitation of jet stream algorithm.
 
 ### Get the code 
 
@@ -63,6 +64,19 @@ or you can install the latest version using [pip](http://pypi.python.org/pypi/pi
 ```bash
 pip install git+https://github.com/neaptide/jsviz.git
 ```
+
+### Dependencies
+
+`jsviz` has dependency on the following Python modules:
+
+  - numpy
+  - matplotlib
+  - metpy
+  - netCDF4
+  - scikit-image
+  - opencv-python
+
+
 ### References
 
 [1] Copernicus Climate Change Service (C3S) (2017): ERA5: Fifth generation of ECMWF atmospheric reanalyses of the global climate . Copernicus Climate Change Service Climate Data Store (CDS), date of access. https://cds.climate.copernicus.eu/cdsapp#!/home

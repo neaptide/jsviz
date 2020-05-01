@@ -1,11 +1,13 @@
 ### Jet Stream Characterization
 
-- Find maximum wind speeds in upper troposhere
+- Find maximum wind speeds in upper troposhere, using 4D ERA5 data.
 - Apply further limitations when mulitple peaks are found
 
 #### Choosing Maximum Windspeeds
 
-One main goal is to identify the location (longitude, latitude, and altitude) of peak winds with time to identify the variable path of the jet streams. By using an image processing method called "Local Maxima Detection," the coordinates of maxima windspeeds in 2D (latitude and altitude) can be determined for each longitude and each time step.  This method efficiently automates the process to analyze decades of atmospheric reanalysis data for jet stream characteristics. 
+One main goal is to identify the location (longitude, latitude, and altitude) of peak winds with time to identify the variable path of the jet streams.  Here, we adopt a similar strategy used by Manney et al. (2011) [1] and Rinkus (2015) [2], to evaluate maximum windpeeds from reanalysis data in a longitudinal slice through the upper atmosphere. 
+
+By using an image processing method called "Local Maxima Detection," the coordinates of maxima windspeeds in 2D (latitude and altitude) can be determined for each longitude and each time step.  This method efficiently automates the process to analyze decades of atmospheric reanalysis data for jet stream characteristics. A similar image analysis tool is employed by Rinkus (2015) [2].
 
 We use the Python function `peak_local_max` available from the [*scikit-image*](https://scikit-image.org/) open-source library to implement the "Local Maxima Detection" method.
 
@@ -22,10 +24,15 @@ A maximum filter is used for finding local maxima. This operation dilates the or
 
 #### Further Peak Limitations
 
-The automated process sometimes finds additional peaks that are not representative of the true jet core. Tuning the above parameters can help, but further limitations are required.  There are two additional criteria:
+The automated process sometimes finds additional peaks that are not representative of the true jet core. Tuning the above parameters can help, but further limitations are required.  There are two additional criteria.
 
 1. When there is more than one peak above the `threshold` (40 m/s default) contained within the same 30 m/s contour, the maximum peak is retained.  
-2. Also, only positive zonal winds (eastward) are retained.
+2. Only positive zonal winds (eastward) are retained.
 
-We use the `findContours()` and `pointPolygonTest()` functions from the [Open Source Computer Vision (OpenCV) Python Library](https://docs.opencv.org/master/) to test if multiple points fall within the same contour.  
+We use the `findContours()` and `pointPolygonTest()` functions from the [Open Source Computer Vision (OpenCV) Python Library](https://docs.opencv.org/master/) to test if multiple points fall within the same contour.
 
+### References
+
+[1] Manney GL, Hegglin MI, Daffer WH et al (2011) Jet characterization in the upper troposphere/lower stratosphere (UTLS): applications to climatology and transport studies. Atmos Chem Phys 11:1835–1889. [doi:10.5194/acpd-11-1835-2011](doi:10.5194/acpd-11-1835-2011)
+
+[2] Rikus, L., 2015: A simple climatology of westerly jet streams in global reanalysis datasets. Part 1: Mid-latitude upper tropospheric jets. Climate Dyn., [doi:10.1007/ s00382-015-2560-y](doi:10.1007/ s00382-015-2560-y)

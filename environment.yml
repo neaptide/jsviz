@@ -7,3 +7,4 @@ dependencies:
   - metpy
   - netCDF4
   - scikit-image
+  - opencv-python

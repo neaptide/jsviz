@@ -5,15 +5,13 @@
 
 #### Choosing Maximum Windspeeds
 
-One main goal is to identify the location (longitude, latitude, and altitude or pressure level) of peak winds with time to plot the variable path(s) of the jet streams, globally or regionally.  Here, we adopt a similar strategy used by Manney et al. [1] and Rikus [2] to determine jet stream positions. Their methodologies evaluate maximum windpeeds from reanalysis data along each longitudinal slice through the upper atmosphere.  The regional analysis here is centered on North America (0-80 deg N and 140-50 deg W), every 6 hours but could be expanded to wider extents in time and space and/or higher resolution.
+To identify the jet stream, globally or regionally, the location (longitude, latitude, and altitude or pressure level) of peak winds with time need to be identified to plot the variable path(s).  Here, we adopt a similar strategy used by Manney et al. [1] and Rikus [2] to determine jet stream positions. Their methodologies evaluate maximum windpeeds from reanalysis data along each longitudinal slice through the upper atmosphere.  The regional analysis here is centered on North America (0-80 deg N and 140-50 deg W), every 6 hours but could be expanded to wider extents in time and space and/or higher resolution.
 
-By using an image processing method called "Local Maxima Detection," the coordinates of maxima windspeeds in 2D (latitude and altitude/pressure) can be determined for each longitude and each time step.  This method efficiently automates the process to analyze decades of atmospheric reanalysis data for jet stream characteristics. A similar image analysis tool is employed by Rinkus [2].
+By using an image processing method called "Local Maxima Detection," the coordinates of maxima windspeeds in 2D (latitude and altitude/pressure) can be determined for each longitude and each time step.  This method efficiently automates the process to analyze decades of atmospheric reanalysis data for jet stream characteristics. We use the Python function `peak_local_max` available from the [*scikit-image*](https://scikit-image.org/) open-source library to implement the "Local Maxima Detection" method. A similar method and image analysis tool is employed by Rinkus [2].
 
-We use the Python function `peak_local_max` available from the [*scikit-image*](https://scikit-image.org/) open-source library to implement the "Local Maxima Detection" method.
+For each image, or 2D field of windspeed, a maximum filter is used for finding local maxima. This operation dilates the original image and merges neighboring local maxima closer than the size of the dilation. Locations where the original image is equal to the dilated image are returned as local maxima. This [example](https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_peak_local_max.html) demostrates how the `peak_local_max` function works.
 
-A maximum filter is used for finding local maxima. This operation dilates the original image and merges neighboring local maxima closer than the size of the dilation. Locations where the original image is equal to the dilated image are returned as local maxima. This [example](https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_peak_local_max.html) of the `peak_local_max` function demostrates how it works.
-
-- Change parameters under "Local Maxima Detection" to change aspects of how peaks are identified by `peak_local_max`.
+Input parameters passed into the `peak_local_max` function change aspects of how peaks are identified.  In the `jsviz` tool, a few of these parameters are provided under the label "Local Maxima Detection". Default values are set but can be changed to visualize and tune how jet stream positions are found.
 
 | Syntax | Default | Description |
 |-----------:|:--------:|:-----------|
@@ -33,6 +31,6 @@ We use the `findContours()` and `pointPolygonTest()` functions from the [Open So
 
 ### References
 
-[1] Manney GL, Hegglin MI, Daffer WH et al (2011) Jet characterization in the upper troposphere/lower stratosphere (UTLS): applications to climatology and transport studies. Atmos Chem Phys 11:1835–1889. [doi:10.5194/acpd-11-1835-2011](doi:10.5194/acpd-11-1835-2011)
+[1] Manney GL, Hegglin MI, Daffer WH et al (2011) Jet characterization in the upper troposphere/lower stratosphere (UTLS): applications to climatology and transport studies. Atmos Chem Phys 11:1835–1889. doi:10.5194/acpd-11-1835-2011.
 
-[2] Rikus, L., 2015: A simple climatology of westerly jet streams in global reanalysis datasets. Part 1: Mid-latitude upper tropospheric jets. Climate Dyn., [doi:10.1007/ s00382-015-2560-y](doi:10.1007/ s00382-015-2560-y)
+[2] Rikus, L., 2015: A simple climatology of westerly jet streams in global reanalysis datasets. Part 1: Mid-latitude upper tropospheric jets. Climate Dyn., doi:10.1007/ s00382-015-2560-y.

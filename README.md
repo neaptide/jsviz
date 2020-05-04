@@ -1,5 +1,5 @@
 # jsviz
-
+<a href="https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb"><img align="right" src="https://mybinder.org/badge_logo.svg"></a>
 ### Overview
 The Jet Stream Visualization Tool (jsviz) is a graphical tool to help see the variable path of the strongest wind speeds in the upper atmosphere and how these maximum winds evolve with time and space.  Combined with data layers of geopotential height and surface pressure, the tool helps provide understanding of the basic atmospheric dynamics associated with the jet stream.  It can also be used for evaluating the algorithm(s) for determining the position of the jet stream and how it varies with time, latitude, longitude and altitude. 
 
@@ -13,10 +13,10 @@ Here is a screen image of the map and interface.
 
 ![Image of jsviz window](https://github.com/neaptide/jsviz/blob/master/images/run_jsviz_ipynb.png)
 
-### Determining Jet Stream Location
+### [Determining Jet Stream Location](https://github.com/neaptide/jsviz/blob/master/jsalgo.md)
 
-The basic methodology steps are:
-- Find maximum wind speeds in upper troposhere, using 4D ERA5 data.
+There are many different ways that jet stream locations are determined in the literature using reanalysis data.  The algorithm employed in this version of the `jsviz` tool is as follows: 
+- Find maximum wind speeds in upper troposhere, using 4D ERA5 data, for each longitude at a given time.
 - Apply further limitations when mulitple peaks are found
 
 More details of the method are provided in the [Jet Stream Characterization page](https://github.com/neaptide/jsviz/blob/master/jsalgo.md). 

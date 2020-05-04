@@ -22,7 +22,7 @@ Input parameters passed into the `peak_local_max` function change aspects of how
 
 #### Further Peak Limitations
 
-The automated process sometimes finds additional peaks that are not representative of the true jet core. Tuning the above parameters can help, but further limitations are required.  There are two additional criteria.
+The `peak_local_max` function sometimes finds additional peaks that may or may not represent jet cores. Tuning the above parameters can help, but further limitations are required.  There are two additional criteria applied here to determine jet stream position:
 
 1. When there is more than one peak above the `threshold` (40 m/s default) contained within the same 30 m/s contour, the maximum peak is retained.  
 2. Only positive zonal winds (eastward) are retained.

@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-29 15:57:42 haines>
+# Last modified: Time-stamp: <2020-05-15 14:26:50 haines>
 """ Jet stream utilities (jsutil)
 
 """
@@ -279,8 +279,8 @@ def get_coastlines():
     # gshhs_i = intermediate
     # gshhs_l = low
     # gshhs_c = coarse
-    lineurl  = 'http://opendap.deltares.nl/thredds/dodsC/opendap/noaa/gshhs/gshhs_i.nc';
-    
+    # lineurl  = 'http://opendap.deltares.nl/thredds/dodsC/opendap/noaa/gshhs/gshhs_i.nc';
+    lineurl  = 'http://whewell.marine.unc.edu/dods/gshhs/gshhs_i.nc'
     # Get coatline line data: 1D vectors are small, so we can get all data
     # opendap(url_line) # when netCDF4 was not compiled with OPeNDAP
     linedata = netCDF4.Dataset(lineurl)

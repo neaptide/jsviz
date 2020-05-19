@@ -1,9 +1,10 @@
-# Last modified: Time-stamp: <2020-05-15 14:26:50 haines>
+# Last modified: Time-stamp: <2020-05-19 14:02:17 haines>
 """ Jet stream utilities (jsutil)
 
 """
 
 import os
+import re
 import time
 import datetime
 
@@ -127,14 +128,19 @@ def find_jets(d, dtidx=0, p={}):
               uwnd[i] = d['uwnd'][dtidx,lvlidx,latidx,lonidx].m
               wspd[i] = d['wspd'][dtidx,lvlidx,latidx,lonidx].m
 
-              # Find contours of 30 m/s
-              # Apply thresholding to the surface and cast as uint8
-              # image = np.uint8((wsec.m > 30.0).astype(int))
-              image = np.uint8((wsec.m > p['peaks_inside_threshold']).astype(int))
+          # Find contours of 30 m/s
+          # Apply thresholding to the surface and cast as uint8
+          # image = np.uint8((wsec.m > 30.0).astype(int))
+          image = np.uint8((wsec.m > p['peaks_inside_threshold']).astype(int))
 
-              # transpose image to match order of yx points, # image.T.shape
-              # returns tuple (contours, heirarchy) so unpack return as contours, _
-              contours, _ = cv2.findContours(image.T,  cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+          # transpose image to match order of yx points, # image.T.shape
+          # returns tuple (contours, heirarchy) so unpack return as contours, _
+          contours, _ = cv2.findContours(image.T,  cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+
+          try:
+              contours
+          except NameError:
+              print(f"No dtidx={dtidx}\nlonidx={lonidx}")
 
           # Keep peaks based on:
           #  1. max peak if two or more within one contour (30 m/s)
@@ -167,7 +173,7 @@ def find_jets(d, dtidx=0, p={}):
           jsidx.append([dtidx,lvlidx,latidx,lonidx])
 
     # end for each lon
-    return np.array(jsidx)
+    return np.array(jsidx, dtype=int)
 
 def get_data(indir, BB):
     """ Read in 4d-var ERA5 data
@@ -217,7 +223,7 @@ def get_data(indir, BB):
         
         # nonzero returns a tuple of idx per dimension
         # we're unpacking the tuple for each of these idx-vars
-        (dtidx,) = np.logical_and(dt >= BB['dt'][0], dt <= BB['dt'][1]).nonzero()
+        (dtidx,) = np.logical_and(dt >= BB['dt'][0], dt < BB['dt'][1]).nonzero()
         (latidx,) = np.logical_and(lat >= BB['lat'][0], lat <= BB['lat'][1]).nonzero()
         (lonidx,) = np.logical_and(lon >= BB['lon'][0], lon <= BB['lon'][1]).nonzero()
        
@@ -281,6 +287,7 @@ def get_coastlines():
     # gshhs_c = coarse
     # lineurl  = 'http://opendap.deltares.nl/thredds/dodsC/opendap/noaa/gshhs/gshhs_i.nc';
     lineurl  = 'http://whewell.marine.unc.edu/dods/gshhs/gshhs_i.nc'
+
     # Get coatline line data: 1D vectors are small, so we can get all data
     # opendap(url_line) # when netCDF4 was not compiled with OPeNDAP
     linedata = netCDF4.Dataset(lineurl)
@@ -293,3 +300,24 @@ def get_coastlines():
     # -----------------------------
     return lines
 
+def generate_columns(types_str='JSDT JSLVL JSLAT JSLON JSHT WSPD UWND VWND HGT'):
+    # use dict to store column label and it's column number
+    #c = col.defaultdict(int)
+    c = {}
+    column_labels = types_str.strip().split(' ')
+    m = re.findall(r'\w{2,}', types_str) # 2 or more char per word
+    for label in column_labels:
+        c[label]=m.index(label) # c['VFLG']=4
+    return c
+
+def write_jet_data(ofn, header, js):
+    """Write header and data. """
+    f = open(ofn, 'w')
+    if header[-1] == '\n':
+        f.write(header)
+    else:
+        f.write(header+'\n')
+    # if there is any data, save to the file)
+    if js.size > 0:
+        np.savetxt(f, js, fmt='%s')
+    f.close()

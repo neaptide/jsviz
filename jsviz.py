@@ -1,4 +1,4 @@
-# Last modified: Time-stamp: <2020-04-29 16:54:40 haines>
+# Last modified: Time-stamp: <2020-05-15 15:40:42 haines>
 r""" Jetstream vizualization (jsviz) tool using ECMWF Reanalysis v5 (ERA5) data
 
 Plots:
@@ -60,10 +60,7 @@ lines = get_coastlines()
 # empty array for jet stream indices in data
 js = np.array([])
 # js column order defined as [JSDT,JSLVL,JSLAT,JSLON]
-JSDT=0
-JSLVL=1
-JSLAT=2
-JSLON=3
+JSDT,JSLVL,JSLAT,JSLON = 0,1,2,3
 
 lm = { 'num_peaks' : 4,
        'min_distance' : 3,

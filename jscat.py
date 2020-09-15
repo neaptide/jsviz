@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# Last modified: Time-stamp: <2020-05-19 12:54:48 haines>
+# Last modified: Time-stamp: <2020-05-19 16:17:33 haines>
 r""" Jetstream catalogue (jscat) tool using ECMWF Reanalysis v5 (ERA5) data
 
 Determines jetstream(s) latitude and level for each time and each
@@ -87,12 +87,12 @@ def do_jscat(yyyy_mm, outdir):
     nrows, _ = jsidx.shape
     ncols = len(c)
     js1 = np.ones(shape=(nrows,ncols))*np.nan
-    dt = np.zeros(shape=(nrows,1), dtype='U13') 
+    dt = np.zeros(shape=(nrows,1), dtype='U25') 
     
     # get datetimes but convert to string YYYYMMDD_HHMM first for writing to file
     for i, idx in enumerate(idxdt):
         # js[i,c['JSDT']] 
-        dt[i] = d['dt'][idx].strftime("%Y%m%d_%H%M")
+        dt[i] = d['dt'][idx].strftime("  %Y %m %d %H %M %S")
 
     # get position data
     js1[:,c['JSLAT']] = d['lat'][idxlat]
@@ -116,22 +116,20 @@ def do_jscat(yyyy_mm, outdir):
     # but that is okay at this step because we are ready to write
     # this out to a text file.
     js = np.column_stack((dt, js1))
-    types_str = 'JSDT ' + types_str
+    types_str = 'YYYY MM DD hh mm ss ' + types_str
 
     # want to add a header for file
-    desc_str = 'Date/Time   Level Latitude Longitude Altitude Windspeed UWind VWind GeopHeight'
-    unit_str = 'YYYYMMDD_HHMM hPa deg      deg       km       m/sec     m/sec m/sec m'
+    desc_str = 'Date       Time     Level Latitude Longitude Altitude Windspeed UWind VWind GeopHeight'
+    unit_str = 'YYYY MM DD hh mm ss hPa   deg      deg       km       m/sec     m/sec m/sec m'
     line_str = ('='*len(desc_str))
     
-    header_str = \
-f"""
-# FileDescription: 'Jet Stream Positions'
+    header_str = f"""# FileDescription: 'Jet Stream Positions'
 # YYYY_MM: {yyyy_mm}
 # LatExtents: {BB['lat'][0]} to {BB['lat'][1]} (deg)
 # LonExtents: {BB['lon'][0]} to {BB['lon'][1]} (deg)
 # LvlExtents: {BB['lvl'][0]} to {BB['lvl'][1]} (hPa)
 # DateExtents: {BB['dt'][0]} to {BB['dt'][1]} 
-# TableColumTypes: {types_str}
+# TableColumnTypes: {types_str}
 # TableStart:
 # {desc_str}
 # {unit_str}

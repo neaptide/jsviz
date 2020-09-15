@@ -42,7 +42,7 @@ You should see a code cell, and once it is run, will load data for a specified y
 
 To start:
 - Place the cursor within cell.
-- Change `2018_01` (YYYY_MM) to run a different year and month. (Only 2017-2018 data are currently avialable)
+- Change `2018_01` (YYYY_MM) to run a different year and month (1979-2019).
 - Press "Run" (![run button](https://github.com/neaptide/jsviz/blob/master/images/run_button.png)) to run the cell.  
 
 Once the "Figure 1" bar with the interaction button (![interaction_button](https://github.com/neaptide/jsviz/blob/master/images/interaction_button.png)) is displayed, you can now use the graphical interface. 
@@ -76,6 +76,9 @@ pip install git+https://github.com/neaptide/jsviz.git
   - netCDF4
   - scikit-image
   - opencv-python
+
+### Acknowledgements
+
 
 
 ### References

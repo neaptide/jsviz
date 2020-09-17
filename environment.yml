@@ -1,7 +1,9 @@
-name: example-environment
+name: test_jsviz
 channels:
   - conda-forge
 dependencies:
+  - ipython
+  - jupyter
   - numpy
   - matplotlib
   - metpy

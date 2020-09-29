@@ -37,7 +37,7 @@ It will open the notebook in a web browser tab. It takes a short while for the p
 
 ### Get the code 
 
-If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz) or download the zipped code from Github: 
+You can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz) or download the zipped code from Github: 
 
 ```bash
 git clone https://github.com/neaptide/jsviz.git
@@ -49,13 +49,13 @@ or download and unzip the code:
 wget https://github.com/neaptide/jsviz/archive/master.zip
 ```
 
-### Install and run the code
+### Build environment 
 
-Once the code is downloaded locally, you will be using the `environment.yml` file in the code folder to get all the dependencies to build and environment called `test_jsviz`.
+Once the code is downloaded locally, you will be using the `environment.yml` file in the code folder to get all the dependencies to build an environment with default name `test_jsviz`.  You can use a different enviroment name by editing the `environment.yml`. 
 
-For example the code is unzipped to `C:\your\home\jsviz`
+For this example the code is unzipped or cloned into `C:\your\home\jsviz`
  
-Open a terminal that activates Anaconda base env.  
+Open a terminal that activates Anaconda base environment. 
 Change the working directory to where you unpacked the code and create the `test_jsviz` environment  
 
 ```
@@ -67,45 +67,52 @@ Activate the `test_jsviz` environment
  
 ```
 (base) C:\your\home\jsviz>conda activate test_jsviz
+(test_jsviz) C:\your\home\jsviz>
 ```
  
-Run either IPython or in a Jupyter Notebook. 
+You can now run `jsviz.py` in either IPython or in a Jupyter Notebook. 
 
+### Running `jsviz.py` in Ipython
+
+Open an Ipython terminal.
 ```
 (test_jsviz) C:\your\home\jsviz>ipython
 ```
 
-or 
-
-```
-(test_jsviz) C:\your\home\jsviz>jupyter-notebook
-```
-
- 
-### Running `jsviz.py` in Ipython
-
-In Ipython, use the magic command `%run` to run the code and generate the interactive graph for the specified year and month (YYYY_MM). It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
+In Ipython, use the magic command `%run` to run the `jsviz.py` code for the specified year and month (YYYY_MM). 
 
 ``` 
 [1] %run jsviz.py 2018_01
 ```
 
+This will initialize the interactive graph, previously described, to the first day and hour of that month on the map and you can begin using the interface. The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
 
-### Using `run_jsviz.ipynb` Notebook and running `jsviz.py`
 
-Once Jupyter server is running in your web browser, find and open the `run_jsviz.ipynb` notebook.  You should see a code cell, and once it is run, will load data for a specified year and month (YYYY_MM).  It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
+### Running `jsviz.py` in Jupyter Notebook
+
+Start the Jupyter Notebook for your web browser.
+```
+(test_jsviz) C:\your\home\jsviz>jupyter-notebook
+```
+
+Find and open the `run_jsviz.ipynb` notebook.  
+
+You should see a code cell with the following code. Once the cell is run, it will load data for a specified year and month (YYYY_MM).  
 
 ```
 %matplotlib notebook
 %run jsviz.py 2018_01
 ```
 
-To start:
+To run the cell block:
 - Place the cursor within cell.
 - Change `2018_01` (YYYY_MM) to run a different year and month (1979-2019).
 - Press "Run" (![run button](https://github.com/neaptide/jsviz/blob/master/images/run_button.png)) to run the cell.  
 
-Once the "Figure 1" bar with the interaction button (![interaction_button](https://github.com/neaptide/jsviz/blob/master/images/interaction_button.png)) is displayed, you can now use the graphical interface. 
+Once the "Figure 1" bar with the interaction button (![interaction_button](https://github.com/neaptide/jsviz/blob/master/images/interaction_button.png)) is displayed, you can now use the graphical interface. The graph will be initialized to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
+
+### Using the interactive display
+
 - Select another longitude by moving the "Long" slider or pressing left- (<) and right-arrow (>) associated with it.  
 - Select a different time and date by moving the "Date" slider or pressing left- (<) and right-arrow (>) associated with it.
 - See the [Jet Stream Characterization](https://github.com/neaptide/jsviz/blob/master/jsalgo.md) description for "Local Maxima Detection" parameters and further peak limitation.

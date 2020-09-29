@@ -1,5 +1,7 @@
 # jsviz
+<!-- mybinder.org fails to load required pip module which breaks the code. Taking the demo offline.
 <a href="https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb"><img align="right" src="https://mybinder.org/badge_logo.svg"></a>
+--->
 ### Overview
 Jet streams are narrow bands of strong winds in the upper troposphere and have dominant influences over short-term weather patterns, and long-term climate and global temperatures.  The Jet Stream Visualization Tool (jsviz) is a graphical tool to help see the variable path of the strongest wind speeds in the upper atmosphere and how these maximum winds evolve with time and space.  Combined with data layers of geopotential height and surface pressure, the tool helps provide understanding of the basic atmospheric dynamics associated with the jet stream.  The tool is also used for evaluating the algorithm for determining the position of the jet stream and how it varies with time, latitude, longitude and altitude. 
 <!-- Comparing position and strength of the jet stream with ocean and atmosphere observations -->
@@ -22,6 +24,7 @@ There are many different ways that jet stream locations are determined in the li
 
 More details of the method are provided in the [Jet Stream Characterization page](https://github.com/neaptide/jsviz/blob/master/jsalgo.md). 
 
+<!-- mybinder.org fails to load required pip module which breaks the code. Taking the demo offline.
 ### Quick Start -- Demo
 
 A Binder image has been built to demo the code. This demo can be run if you don't have python setup locally or don't know how to launch your own jupyter-notebook.  Although, it is slower to load and run than downloading and running `jsviz` code locally. 
@@ -30,10 +33,67 @@ Launch a the demo Jupyter Notebook from this badge.
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb)
 
 It will open the notebook in a web browser tab. It takes a short while for the page to be displayed.  Be patient.  If it is taking a really long time, most likely there were underlying code changes and the Binder image is being rebuilt. Once the Binder image is (built and) served it will open up notebook called `run_jsviz.ipynb` in a web browser tab. 
+-->
 
-### Using `run_jsviz.ipynb` Notebook
+### Get the code 
 
-You should see a code cell, and once it is run, will load data for a specified year and month (YYYY_MM).  It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
+If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz) or download the zipped code from Github: 
+
+```bash
+git clone https://github.com/neaptide/jsviz.git
+```
+
+or download and unzip the code:
+
+```bash
+wget https://github.com/neaptide/jsviz/archive/master.zip
+```
+
+### Install and run the code
+
+Once the code is downloaded locally, you will be using the `environment.yml` file in the code folder to get all the dependencies to build and environment called `test_jsviz`.
+
+For example the code is unzipped to `C:\your\home\jsviz`
+ 
+Open a terminal that activates Anaconda base env.  
+Change the working directory to where you unpacked the code and create the `test_jsviz` environment  
+
+```
+(base) C:\your\home> cd jsviz
+(base) C:\your\home\jsviz>conda env create -f environment.yml
+```
+
+Activate the `test_jsviz` environment
+ 
+```
+(base) C:\your\home\jsviz>conda activate test_jsviz
+```
+ 
+Run either IPython or in a Jupyter Notebook. 
+
+```
+(test_jsviz) C:\your\home\jsviz>ipython
+```
+
+or 
+
+```
+(test_jsviz) C:\your\home\jsviz>jupyter-notebook
+```
+
+ 
+### Running `jsviz.py` in Ipython
+
+In Ipython, use the magic command `%run` to run the code and generate the interactive graph for the specified year and month (YYYY_MM). It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
+
+``` 
+[1] %run jsviz.py 2018_01
+```
+
+
+### Using `run_jsviz.ipynb` Notebook and running `jsviz.py`
+
+Once Jupyter server is running in your web browser, find and open the `run_jsviz.ipynb` notebook.  You should see a code cell, and once it is run, will load data for a specified year and month (YYYY_MM).  It will initialize the graph to the first day and hour of that month on the map.  The veritcal section will iniatilize to the the first (left-most) longitude of the area.  For example, if `2018_01` is used, the map and vertical section will show the data for 2018-01-01 at 00:00 (UTC) and the longitude of 140 W.
 
 ```
 %matplotlib notebook
@@ -52,19 +112,6 @@ Once the "Figure 1" bar with the interaction button (![interaction_button](https
   - Press "Jet Stream ON/OFF" button to toggle display of jet stream markers.
   - Press "Limitation ON/OFF" button to enable/disable further limitation of jet stream algorithm.
 
-### Get the code 
-
-The `jsviz` code can be run in a Jupyter Notebook or standalone using IPython.  If you are familiar with Python and your system Python installation, you can clone the [jsviz Github Repository](https://github.com/neaptide/jsviz): 
-
-```bash
-git clone https://github.com/neaptide/jsviz.git
-```
-
-or you can install the latest version using [pip](http://pypi.python.org/pypi/pip):
-
-```bash
-pip install git+https://github.com/neaptide/jsviz.git
-```
 
 ### Dependencies
 
@@ -79,7 +126,7 @@ pip install git+https://github.com/neaptide/jsviz.git
 
 ### Acknowledgements
 
-
+The `jsviz` tool is based upon work supported by National Science Foundation under grant OCE-1558920. 
 
 ### References
 

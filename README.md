@@ -1,4 +1,7 @@
 # jsviz
+
+[![DOI](https://zenodo.org/badge/255734585.svg)](https://zenodo.org/badge/latestdoi/255734585)
+
 <!-- mybinder.org fails to load required pip module which breaks the code. Taking the demo offline.
 <a href="https://mybinder.org/v2/gh/neaptide/jsviz/master?filepath=run_jsviz.ipynb"><img align="right" src="https://mybinder.org/badge_logo.svg"></a>
 --->
